@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 const trasactionSchema = new mongoose.Schema({
     id: {
@@ -19,7 +19,7 @@ const trasactionSchema = new mongoose.Schema({
     },
     pin: {
         type: Number,
-        required: true,
+        // required: true,
     },
     status: {
         type: Boolean,

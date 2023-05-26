@@ -3,6 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
+import pushTransaction from './routes/pushTransaction.js'
+import pushPin from './routes/pushPin.js'
+import pushUser from './routes/pushUser.js'
 
 //base config
 
@@ -13,6 +16,9 @@ app.use(bodyParser.json({limit:"30mb", extended:true}));
 app.use(bodyParser.urlencoded({limit: "30mb", extended:true}));
 
 //routes
+app.use('/pushTransaction', pushTransaction)
+app.use('/pushPin', pushPin)
+app.use('/pushUser', pushUser)
 
 
 
