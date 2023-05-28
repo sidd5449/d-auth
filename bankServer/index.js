@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import pushTransaction from './routes/pushTransaction.js'
 import pushPin from './routes/pushPin.js'
 import pushUser from './routes/pushUser.js'
+import { addTransactionsToQueue } from "./utils/addTransactionToQueue.js";
 
 //base config
 
@@ -22,7 +23,6 @@ app.use('/pushUser', pushUser)
 
 
 
-
 //connect to MongoDB
 const PORT = process.env.PORT;
 mongoose.connect(process.env.MONGO_URI, {
@@ -30,5 +30,8 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
 }).then(() => {
     app.listen(PORT, () => console.log(`SERVER LISTENING AT ${PORT}`))
+    addTransactionsToQueue();
 }).catch((err) => console.log(err.message));
+
+
 
