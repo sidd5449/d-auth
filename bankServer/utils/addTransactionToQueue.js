@@ -1,41 +1,40 @@
 import mongoose from "mongoose";
 import trasactionData from "../models/transaction.js";
-class Queue {
-    constructor() {
-        this.items = {}
-        this.frontIndex = 0
-        this.backIndex = 0
+import userData from "../models/user.js";
+import nodemailer from 'nodemailer';
+
+
+const sendMail = async(email) => {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'sidd5449@gmail.com',
+        pass: 'jvxyxnppiyfkaaiq'
     }
-    enqueue(item) {
-        this.items[this.backIndex] = item
-        this.backIndex++
-        return item + ' inserted'
-    }
-    dequeue() {
-        const item = this.items[this.frontIndex]
-        delete this.items[this.frontIndex]
-        this.frontIndex++
-        return item
-    }
-    peek() {
-        return this.items[this.frontIndex]
-    }
-    get printQueue() {
-        return this.items;
-    }
+  });
+
+  let info = await transporter.sendMail({
+    from: '"Fred Foo 👻" <sidd5449@gmail.com>', // sender address
+    to: `${email}`, // list of receivers
+    subject: "Authenticate Transaction", // Subject line
+    text: "", // plain text body
+    html: "<a href = 'http://192.168.140.149/pushPin'>Authenticate Transaction</a>", // html body
+  });
+
+//   console.log("Message sent: %s", info.messageId);
 }
 
-const transactionQueue = new Queue();
 export const addTransactionsToQueue = async(req, res) => {
     try {
-        // const filter = { status: false };.
-        trasactionData.find({status:false}, {id:1}).then((data) => {
-            data.forEach((item) => {
-                transactionQueue.enqueue(item);
-            })
-            console.log(data)
-            // console.log(transactionQueue);
-            console.log(transactionQueue.printQueue);
+        trasactionData.find({status:false}).then((data) => {
+            if(data){
+                data.forEach(async (item) => {
+                    const [mailAddress] = await userData.find({card_no:item.card_no}, {email:1, _id:0});
+                    console.log(mailAddress.email)
+                    // sendMail(mailAddress.email);
+                })
+            }
+            
         })
     } catch (err) {
         console.log(err.message);

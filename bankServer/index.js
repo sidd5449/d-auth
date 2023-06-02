@@ -7,6 +7,8 @@ import pushTransaction from './routes/pushTransaction.js'
 import pushPin from './routes/pushPin.js'
 import pushUser from './routes/pushUser.js'
 import { addTransactionsToQueue } from "./utils/addTransactionToQueue.js";
+import sessions from "express-session";
+import cookieParser from "cookie-parser";
 
 //base config
 
@@ -15,6 +17,15 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({limit:"30mb", extended:true}));
 app.use(bodyParser.urlencoded({limit: "30mb", extended:true}));
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
+app.use(cookieParser());
+var session;
 
 //routes
 app.use('/pushTransaction', pushTransaction)
@@ -31,6 +42,7 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => {
     app.listen(PORT, () => console.log(`SERVER LISTENING AT ${PORT}`))
     addTransactionsToQueue();
+
 }).catch((err) => console.log(err.message));
 
 

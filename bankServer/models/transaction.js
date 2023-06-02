@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const trasactionSchema = new mongoose.Schema({
+const transactionSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true,
@@ -26,5 +26,5 @@ const trasactionSchema = new mongoose.Schema({
     }, 
 },{timestamps:true});
 
-const trasactionData = mongoose.model("Transaction Data", trasactionSchema);
-export default trasactionData;
+const transactionData = mongoose.model("Transaction Data", transactionSchema);
+export default transactionData;
