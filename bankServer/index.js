@@ -5,7 +5,8 @@ import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import pushTransaction from './routes/pushTransaction.js'
 import pushPin from './routes/pushPin.js'
-import pushUser from './routes/pushUser.js'
+import pushUser from './routes/pushUser.js';
+import statusPush from './routes/statusPush.js';
 import { addTransactionsToQueue } from "./utils/addTransactionToQueue.js";
 import sessions from "express-session";
 import cookieParser from "cookie-parser";
@@ -28,9 +29,10 @@ app.use(cookieParser());
 var session;
 
 //routes
-app.use('/pushTransaction', pushTransaction)
-app.use('/pushPin', pushPin)
-app.use('/pushUser', pushUser)
+app.use('/pushTransaction', pushTransaction);
+app.use('/pushPin', pushPin);
+app.use('/pushUser', pushUser);
+app.use('/status', statusPush);
 
 
 
