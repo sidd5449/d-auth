@@ -13,16 +13,22 @@ export const pinController = async(req, res) => {
         const transactionFilter = { id: id };
         var [transaction] = await trasactionData.find(transactionFilter);
         var [userPin] = await userData.find({card_no: transaction.card_no}, {pin:1, _id:0});
-        const updata = {
+        const updata1 = {
             $set: {
-                status: true,
+                status: 'Transaction Successful',
+            }
+        }
+        const updata2 = {
+            $set: {
+                status: 'Transaction Failed',
             }
         }
         if(pinFromUser === userPin.pin.toString()){
-            await trasactionData.updateOne(transactionFilter, updata);
+            await trasactionData.updateOne(transactionFilter, updata1);
             res.send("Transaction Successful");    
         }
         else{
+            await trasactionData.updateOne(transactionFilter, updata2);
             res.send("Transaction Failed");
         }
 

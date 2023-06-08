@@ -3,7 +3,8 @@ import transactionData from "../models/transaction.js";
 export const transactionController = async(req, res) => {
     try {
         console.log(req);
-        const data = req.query;
+        const data = req.body;
+        console.log(data)
         const newTransaction = new transactionData(data);
         await newTransaction.save();
         res.status(201).json(data);

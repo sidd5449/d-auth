@@ -22,7 +22,7 @@ const transactionSchema = new mongoose.Schema({
         // required: true,
     },
     status: {
-        type: Boolean,
+        type: String,
     }, 
 },{timestamps:true});
 
