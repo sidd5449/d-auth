@@ -1,24 +1,30 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
 
-const MainPage = () => {
+const MainPage = ({ navigation, route }) => {
 
   const [userPin, setuserPin] = useState();
   const [status, setstatus] = useState('');
-  const tranId = 'abc'
+  const [tranId] = useState(route.params.transactionID);
+  console.log(tranId);
 
-  const data = [
-    {
-      id: 246,
-      pin: Number(userPin)
-    }
-  ]
+
+  console.log(userPin);
   const handleSubmit = () => {
-    axios.patch('http://localhost:8080/pushPin', data).then(() => {
+    const data = 
+      {
+        id: tranId,
+        pin: userPin
+      }
+    axios.patch('http://192.168.88.149:8080/pushPin', data).then(() => {
       setInterval(() => {
-        axios.get(`http://localhost:8080/status/${tranId}`).then((data) => {
-          setstatus(data);
+        axios.get(`http://192.168.88.149:8080/status/${tranId}`).then((data) => {
+          if(status !==[data.data]){
+            setstatus([data.data]);
+          }
+          console.log(status);
         })
       }, 50);
     })
@@ -30,7 +36,8 @@ const MainPage = () => {
     <View style={styles.app__main}>
         <Text style={styles.text} >D-Auth PIN Authentication</Text>
       <TextInput placeholder='Please Enter PIN' style={styles.textInput} onChangeText={(value) => setuserPin(value)} />
-      <TouchableOpacity style={styles.button}><Text>Submit PIN</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}><Text>Submit PIN</Text></TouchableOpacity>
+      <Text>{status}</Text>
     </View>
     </LinearGradient>
   )

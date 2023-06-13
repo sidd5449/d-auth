@@ -3,6 +3,7 @@ import './MainPage.scss';
 import bgImg from '../../assets/bg.webp';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import QRCode from 'react-qr-code';
 
 const MainPage = () => {
     const [amount, setamount] = useState();
@@ -14,6 +15,7 @@ const MainPage = () => {
         const uniqueId = uuidv4();
         console.log(uniqueId)
         setid(uniqueId);
+        
         console.log(id)
         const transactionData = 
             {
@@ -27,7 +29,7 @@ const MainPage = () => {
             console.log("Transaction Added")
         })
         const url = `http://localhost:8080/status/${uniqueId}`;
-        setid("");
+        // setid("");
         setInterval(() => {
             axios.get(url).then((data) => {
             // console.log(data.data);
@@ -74,6 +76,13 @@ const MainPage = () => {
                 <input type="text" name='amount' placeholder='Enter the Amount' onChange={(event => {setamount(event.target.value)})}/>
             </div>
             <button onClick={handleSubmit}>Submit</button>
+            <QRCode 
+                value={id}
+                bgColor='#02001a'
+                fgColor='#fff'
+                size={150}
+                className='qr-code'
+            />
             <h2 className='transactionStatus' style={{color: setColor(transactionStatus)}}>{transactionStatus}</h2>
         </div>
     </div>

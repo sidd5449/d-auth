@@ -6,8 +6,9 @@ export const pinController = async(req, res) => {
     var session;
     try {
         session = req.session;
-        const pinFromUser = req.query.pin;
-        const id = req.query.id;
+        console.log(req);
+        const pinFromUser = req.body.pin;
+        const id = req.body.id;
         console.log(id);
         session.uniqueId = id;
         const transactionFilter = { id: id };
