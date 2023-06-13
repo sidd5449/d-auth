@@ -18,9 +18,9 @@ const MainPage = ({ navigation, route }) => {
         id: tranId,
         pin: userPin
       }
-    axios.patch('http://192.168.88.149:8080/pushPin', data).then(() => {
+    axios.patch('http://localhost:8080/pushPin', data).then(() => {
       setInterval(() => {
-        axios.get(`http://192.168.88.149:8080/status/${tranId}`).then((data) => {
+        axios.get(`http://localhost:8080/status/${tranId}`).then((data) => {
           if(status !==[data.data]){
             setstatus([data.data]);
           }
