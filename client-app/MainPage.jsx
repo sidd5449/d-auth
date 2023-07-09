@@ -18,9 +18,9 @@ const MainPage = ({ navigation, route }) => {
         id: tranId,
         pin: userPin
       }
-    axios.patch('http://localhost:8080/pushPin', data).then(() => {
+    axios.patch('https://d-auth.onrender.com/pushPin', data).then(() => {
       setInterval(() => {
-        axios.get(`http://localhost:8080/status/${tranId}`).then((data) => {
+        axios.get(`https://d-auth.onrender.com/status/${tranId}`).then((data) => {
           if(status !==[data.data]){
             setstatus([data.data]);
           }

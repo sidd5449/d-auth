@@ -25,10 +25,10 @@ const MainPage = () => {
                 amount:Number(amount),
                 status: 'Processing',
             }
-        await axios.post('http://localhost:8080/pushTransaction', transactionData).then(() => {
+        await axios.post('https://d-auth.onrender.com/pushTransaction', transactionData).then(() => {
             console.log("Transaction Added")
         })
-        const url = `http://localhost:8080/status/${uniqueId}`;
+        const url = `https://d-auth.onrender.com/status/${uniqueId}`;
         // setid("");
         setInterval(() => {
             axios.get(url).then((data) => {
