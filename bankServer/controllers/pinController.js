@@ -1,6 +1,7 @@
 import transactionData from "../models/transaction.js";
 import trasactionData from "../models/transaction.js";
 import userData from "../models/user.js";
+import bcrypt from 'bcrypt';
 
 export const pinController = async(req, res) => {
     var session;
@@ -14,6 +15,7 @@ export const pinController = async(req, res) => {
         const transactionFilter = { id: id };
         var [transaction] = await trasactionData.find(transactionFilter);
         var [userPin] = await userData.find({card_no: transaction.card_no}, {pin:1, _id:0});
+        const isMatched = await bcrypt.compare(userPin, pinFromUser);
         const updata1 = {
             $set: {
                 status: 'Transaction Successful',
@@ -24,7 +26,7 @@ export const pinController = async(req, res) => {
                 status: 'Transaction Failed',
             }
         }
-        if(pinFromUser === userPin.pin.toString()){
+        if(isMatched){
             await trasactionData.updateOne(transactionFilter, updata1);
             res.send("Transaction Successful");    
         }

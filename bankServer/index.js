@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import pushTransaction from './routes/pushTransaction.js'
 import pushPin from './routes/pushPin.js'
 import pushUser from './routes/pushUser.js';
+// import getUser from './routes/getUser.js';
 import statusPush from './routes/statusPush.js';
 import { addTransactionsToQueue } from "./utils/addTransactionToQueue.js";
 import sessions from "express-session";
@@ -33,6 +34,11 @@ app.use('/pushTransaction', pushTransaction);
 app.use('/pushPin', pushPin);
 app.use('/pushUser', pushUser);
 app.use('/status', statusPush);
+// app.use('/getUser', getUser)
+
+setInterval(() => {
+    return(1+0);
+}, 10000);
 
 
 
